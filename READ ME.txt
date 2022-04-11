@@ -1,0 +1,2 @@
+This is auto safety evaluation project from codecademy. 
+Summary statistics for categorical data. 

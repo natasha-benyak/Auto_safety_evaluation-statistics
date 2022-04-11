@@ -1,0 +1,45 @@
+import pandas as pd
+import numpy as np
+
+car_eval = pd.read_csv('car_eval_dataset.csv')
+print(car_eval.head())
+print(car_eval.columns)
+
+# Create a table of frequencies of all the cars reviewed by manufacturer_country. What is the modal category? Which country appears 4th most frequently? Print out your results.
+print(car_eval['manufacturer_country'].value_counts())
+print(car_eval['manufacturer_country'].value_counts().index[4-1])
+
+# Calculate a table of proportions for countries that appear in manufacturer_country in the dataset. What percentage of cars were manufactured in Japan? (22)
+print(car_eval['manufacturer_country'].value_counts(normalize=True))
+
+# buying_cost is a categorical variable which describes the cost of buying any car in the dataset. Print out a list of the possible values for this variable.
+print(car_eval['buying_cost'].unique())
+
+# Create a new list, buying_cost_categories, that contains the unique values in buying_cost, ordered from lowest to highest.
+buying_cost_categories = ['low', 'med', 'high', 'vhigh']
+
+# Convert buying_cost to type 'category' using the list you created in the previous exercise.
+car_eval['buying_cost'] = pd.Categorical(
+  car_eval['buying_cost'], buying_cost_categories, ordered=True
+)
+
+# Calculate the median category of the buying_cost variable and print the result.
+median_num = np.median(car_eval['buying_cost'].cat.codes)
+median_category = buying_cost_categories[int(median_num)]
+print(median_category)
+
+# Calculate a table of proportions for this variable - luggage - and print the result.
+print(car_eval['luggage'].value_counts(normalize=True))
+
+# Are there any missing values in this column? Replicate the table of proportions from the previous exercise, but do not drop any missing values from the count. Print your result. (same)
+print(car_eval['luggage'].value_counts(dropna = False, normalize = True))
+
+# Without passing normalize = True to .value_counts(), can you replicate the result you got in the previous exercises?
+print(car_eval['luggage'].value_counts()/len(car_eval['luggage']))
+
+# Find the count of cars that have 5 or more doors. You can identify cars with 5+ doors by looking for cars that have a value of '5more' in the doors column. Print your result.
+print((car_eval['doors'] == '5more').sum())
+
+# Find the proportion of cars that have 5+ doors and print the result.
+print((car_eval['doors'] == '5more').mean())
+
